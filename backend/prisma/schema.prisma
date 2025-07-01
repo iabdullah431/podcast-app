@@ -1,0 +1,23 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Podcast {
+  id     Int    @id
+  name   String
+  artist String
+  image  String
+  link   String
+  genre  String
+}
+
+model SearchHistory {
+  id        Int      @id @default(autoincrement())
+  term      String
+  createdAt DateTime @default(now())
+}
