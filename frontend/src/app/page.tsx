@@ -105,7 +105,7 @@ export default function Home() {
         {!episodesLoading && episodes.length > 0 && (
           <>
             <h2 className="text-lg font-semibold">
-              Top episodes for: <span className="text-purple-400">{term}</span>
+              أفضل الحلقات لـ: <span className="text-purple-400">{term}</span>
             </h2>
             <LayoutToggle layout={layout} setLayout={setLayout} />
           </>
