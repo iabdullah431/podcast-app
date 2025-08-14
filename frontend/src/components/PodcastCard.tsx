@@ -26,9 +26,8 @@ export default function PodcastCard({ podcast }: { podcast: Podcast }) {
           fill
           style={{ objectFit: "cover" }}
           placeholder="blur"
-          blurDataURL="/images/placeholder.png"
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2UyZTJlMiIvPjwvc3ZnPg=="
           draggable={false}
-          priority={false}
           sizes="220px"
           className="select-none"
         />

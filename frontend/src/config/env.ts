@@ -1,7 +1,10 @@
-export const env = {
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL!,
-};
+import axios from "axios";
 
-if (!env.BASE_URL) {
-  throw new Error("❌ Missing NEXT_PUBLIC_API_URL in environment variables");
-}
+const apiPodcast = axios.create({
+  baseURL:
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://backendpodcast-production.up.railway.app",
+  headers: { "Content-Type": "application/json" },
+});
+
+export default apiPodcast;

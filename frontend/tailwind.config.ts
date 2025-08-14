@@ -17,6 +17,9 @@ export default {
         "scroll-thumb-hover": "#9048C8",
         "scroll-track": "transparent",
       },
+      fontFamily: {
+        sans: ["IBMPlexSansArabic", "ui-sans-serif", "system-ui"],
+      },
     },
   },
   plugins: [require("tailwind-scrollbar")],

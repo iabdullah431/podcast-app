@@ -5,85 +5,79 @@ import PodcastCard from "@/components/PodcastCard";
 import PodcastListItem from "@/components/PodcastListItem";
 import SearchBar from "@/components/SearchBar";
 import LayoutToggle from "@/components/LayoutToggle";
-import { Podcast } from "@/types/podcast";
 import SkeletonListItem from "@/Skeleton/SkeletonListItem";
 import SkeletonCard from "@/Skeleton/SkeletonCard";
-import { getOverview, getEpisodes } from "@/api/podcastService";
 import { OverviewScroll } from "@/components/OverviewScroll";
+import { useOverviewSearch, useEpisodeSearch, useSearchHistory } from "@/hooks";
+import { Podcast } from "@/types/podcast";
 
 export default function Home() {
-  const [term, setTerm] = useState("فنجان");
+  const [userTerm, setUserTerm] = useState("");
+  const [queryTerm, setQueryTerm] = useState("فنجان");
 
-  // Overview state: data, loading, and error
-  const [overview, setOverview] = useState<Podcast[]>([]);
-  const [overviewLoading, setOverviewLoading] = useState(false);
-  const [overviewError, setOverviewError] = useState<Error | null>(null);
+  // queries
+  const {
+    data: overview = [],
+    isLoading: overviewLoading,
+    isError: overviewIsError,
+  } = useOverviewSearch(queryTerm);
 
-  // Episodes state: data, loading, and error
-  const [episodes, setEpisodes] = useState<Podcast[]>([]);
-  const [episodesLoading, setEpisodesLoading] = useState(false);
-  const [episodesError, setEpisodesError] = useState<Error | null>(null);
+  const {
+    data: episodes = [],
+    isLoading: episodesLoading,
+    isError: episodesIsError,
+    isSuccess: episodesSuccess,
+  } = useEpisodeSearch(queryTerm);
 
-  // Layout state for episodes display
+  const { data: history = [], refetch: refetchHistory } = useSearchHistory();
+
+  // refresh search history after a successful search
+  useEffect(() => {
+    if (episodesSuccess) refetchHistory();
+  }, [episodesSuccess, refetchHistory]);
+
   const [layout, setLayout] = useState<"scroll" | "grid" | "compact">(
     "compact"
   );
 
-  // Fetch overview data when search term changes
-  useEffect(() => {
-    if (!term) return;
-    setOverviewLoading(true);
-    setOverviewError(null);
-
-    getOverview(term)
-      .then(setOverview)
-      .catch(setOverviewError)
-      .finally(() => setOverviewLoading(false));
-  }, [term]);
-
-  // Fetch episodes data when search term changes
-  useEffect(() => {
-    if (!term) return;
-    setEpisodesLoading(true);
-    setEpisodesError(null);
-
-    getEpisodes(term)
-      .then(setEpisodes)
-      .catch(setEpisodesError)
-      .finally(() => setEpisodesLoading(false));
-  }, [term]);
-
   return (
     <div className="bg-[#0f0f1a] text-white min-h-screen px-6 py-8">
-      {/* Header */}
+      {/* Page header */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">Arabic Podcasts</h1>
       </div>
 
-      {/* Search Bar */}
-      <SearchBar onSearch={setTerm} />
+      {/* Search bar */}
+      <SearchBar
+        value={userTerm} // show what user types, not the default "فنجان"
+        onChange={setUserTerm}
+        onSearch={setQueryTerm} // actual query triggered here
+        onClear={() => setUserTerm("")}
+        history={history}
+        onPickHistory={(val) => {
+          setUserTerm(val);
+          setQueryTerm(val);
+        }}
+      />
 
-      {/* Overview Section */}
+      {/* Overview section */}
       <div className="my-6">
-        <>
-          {!overviewLoading && overview.length > 0 && (
-            <>
-              <h2 className="text-lg font-semibold mb-3">
-                نظرة عامة لـ: <span className="text-purple-400">{term}</span>
-              </h2>
+        {!overviewLoading && overview.length > 0 && (
+          <>
+            <h2 className="text-lg font-semibold mb-3">
+              نظرة عامة لـ: <span className="text-purple-400">{queryTerm}</span>
+            </h2>
+            <OverviewScroll>
+              {overview.map((podcast: any, i: number) => (
+                <PodcastCard
+                  key={podcast.id || podcast.link || podcast.name || i}
+                  podcast={podcast}
+                />
+              ))}
+            </OverviewScroll>
+          </>
+        )}
 
-              <OverviewScroll>
-                {overview.map((podcast: any, index: number) => (
-                  <PodcastCard
-                    key={podcast.id || podcast.name || index}
-                    podcast={podcast}
-                  />
-                ))}
-              </OverviewScroll>
-            </>
-          )}
-        </>
-        {/* Loading skeletons for overview */}
         {overviewLoading && (
           <div className="flex gap-4 overflow-x-auto pb-2">
             {Array(5)
@@ -94,25 +88,24 @@ export default function Home() {
           </div>
         )}
 
-        {/* Error message for overview */}
-        {overviewError && (
+        {overviewIsError && (
           <p className="text-red-500">Failed to load overview data.</p>
         )}
       </div>
 
-      {/* Episodes Section */}
+      {/* Episodes section */}
       <div className="flex justify-between items-center mt-10 mb-4">
         {!episodesLoading && episodes.length > 0 && (
           <>
             <h2 className="text-lg font-semibold">
-              أفضل الحلقات لـ: <span className="text-purple-400">{term}</span>
+              أفضل الحلقات لـ:{" "}
+              <span className="text-purple-400">{queryTerm}</span>
             </h2>
             <LayoutToggle layout={layout} setLayout={setLayout} />
           </>
         )}
       </div>
 
-      {/* Loading skeletons for episodes */}
       {episodesLoading && (
         <div
           className={`${
@@ -131,14 +124,16 @@ export default function Home() {
         </div>
       )}
 
-      {/* Episodes Grid Layout */}
       {!episodesLoading && episodes.length > 0 && (
         <>
           {layout === "scroll" ? (
             <OverviewScroll>
-              {episodes.map((podcast) => (
-                <PodcastListItem key={podcast.id} podcast={podcast} />
-              ))}{" "}
+              {episodes.map((podcast: Podcast, index: number) => (
+                <PodcastListItem
+                  key={(podcast.id ?? podcast.link ?? "ep") + "-" + index}
+                  podcast={podcast}
+                />
+              ))}
             </OverviewScroll>
           ) : (
             <div
@@ -152,16 +147,18 @@ export default function Home() {
                   : ""
               }`}
             >
-              {episodes.map((podcast) => (
-                <PodcastListItem key={podcast.id} podcast={podcast} />
+              {episodes.map((podcast: Podcast, index: number) => (
+                <PodcastListItem
+                  key={(podcast.id ?? podcast.link ?? "ep") + "-" + index}
+                  podcast={podcast}
+                />
               ))}
             </div>
           )}
         </>
       )}
 
-      {/* Error message for episodes */}
-      {episodesError && (
+      {episodesIsError && (
         <p className="text-red-500">Failed to load episodes data.</p>
       )}
     </div>

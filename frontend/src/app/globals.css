@@ -1,15 +1,35 @@
 @import "tailwindcss";
 
+/* ✅ Add font-face for Arabic font */
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Regular.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("/IBM-Plex-Sans-Arabic/IBMPlexSansArabic-Bold.otf")
+    format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* ✅ Set font-sans default to IBM Plex Arabic */
+  --font-sans: "IBMPlexSansArabic", Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +38,8 @@
     --foreground: #ededed;
   }
 }
+
+/* ✅ Hide scrollbars */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -25,8 +47,10 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ✅ Apply global font */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
