@@ -68,7 +68,7 @@ export default function Home() {
               نظرة عامة لـ: <span className="text-purple-400">{queryTerm}</span>
             </h2>
             <OverviewScroll>
-              {overview.map((podcast: any, i: number) => (
+              {overview.map((podcast: Podcast, i: number) => (
                 <PodcastCard
                   key={podcast.id || podcast.link || podcast.name || i}
                   podcast={podcast}

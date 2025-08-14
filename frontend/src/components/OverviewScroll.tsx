@@ -16,7 +16,7 @@ export function OverviewScroll({
   const thumbRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  const dragStart = useRef({ x: 0, scrollLeft: 0 });
+  const dragStart = useRef<{ x: number; scrollLeft: number } | null>(null);
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -155,6 +155,8 @@ export function OverviewScroll({
       }
     }
 
+    dragStart.current = { x: startX, scrollLeft: startScrollLeft };
+
     // Immediate visual feedback - no delays
     thumb.style.backgroundColor = "#7c3aed";
     thumb.style.transition = "none"; // Remove all transitions during drag
@@ -207,6 +209,8 @@ export function OverviewScroll({
 
     const handleMouseUp = () => {
       isDragging.current = false;
+
+      dragStart.current = null;
 
       // Restore transitions
       thumb.style.transition = "height 0.15s ease, background-color 0.1s ease";
