@@ -44,7 +44,7 @@ export default function Home() {
     <div className="bg-[#0f0f1a] text-white min-h-screen px-6 py-8">
       {/* Page header */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold">Arabic Podcasts</h1>
+        <h1 className="text-3xl font-bold">الإعلام المسموع 🎧 </h1>
       </div>
 
       {/* Search bar */}
