@@ -7,7 +7,6 @@ export default function PodcastListItem({ podcast }: { podcast: Podcast }) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -24,14 +23,12 @@ export default function PodcastListItem({ podcast }: { podcast: Podcast }) {
 
   return (
     <div className="relative flex items-start bg-[#1a1a28] hover:bg-[#232334] transition rounded-lg p-4 gap-4 shadow">
-      {/* Podcast Image */}
       <img
         src={podcast.image}
         alt={podcast.name}
         className="w-20 h-20 rounded-md object-cover flex-shrink-0"
       />
 
-      {/* Podcast Info */}
       <div className="flex-1 overflow-hidden">
         <h3 className="text-sm font-bold text-white truncate">
           {podcast.name}
@@ -39,7 +36,6 @@ export default function PodcastListItem({ podcast }: { podcast: Podcast }) {
         <p className="text-xs text-purple-400 truncate">{podcast.artist}</p>
       </div>
 
-      {/* Toggle Button */}
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setShowMenu((prev) => !prev)}
@@ -53,15 +49,14 @@ export default function PodcastListItem({ podcast }: { podcast: Podcast }) {
           </svg>
         </button>
 
-        {/* Dropdown Menu */}
         {showMenu && (
-          <div className="absolute left-0 lt-2 w-44 bg-gradient-to-br from-purple-500 to-indigo-600 rounded shadow-lg z-50 text-sm overflow-hidden">
+          <div className="absolute right-0 mt-2 w-36 bg-gradient-to-br from-purple-700 to-indigo-800 rounded-lg shadow-lg z-50 overflow-hidden">
             <a
               href={podcast.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="block px-4 py-2 hover:bg-purple-700 hover:text-white transition-colors"
-              onClick={() => setShowMenu(false)} // close menu on link click
+              className="block px-3 py-2 hover:bg-purple-600 text-white transition-colors text-sm whitespace-nowrap"
+              onClick={() => setShowMenu(false)}
             >
               Go to Podcast
             </a>

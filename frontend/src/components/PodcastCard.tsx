@@ -18,7 +18,6 @@ export default function PodcastCard({ podcast }: { podcast: Podcast }) {
 
   return (
     <div className="relative bg-[#1e1e2f] rounded-2xl hover:bg-[#292940] transition p-4 w-full max-w-[260px] flex flex-col items-center">
-      {/* Podcast Image */}
       <div className="w-[220px] h-[220px] rounded-xl overflow-hidden relative shadow-none">
         <Image
           src={podcast.image}
@@ -33,7 +32,6 @@ export default function PodcastCard({ podcast }: { podcast: Podcast }) {
         />
       </div>
 
-      {/* Podcast Name and Artist */}
       <div className="mt-4 w-full px-2">
         <div className="flex justify-between items-center">
           <div className="flex flex-col flex-grow mr-4 min-w-0">
@@ -51,7 +49,6 @@ export default function PodcastCard({ podcast }: { podcast: Podcast }) {
             </p>
           </div>
 
-          {/* Toggle Menu Button */}
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setShowMenu((prev) => !prev)}
@@ -66,20 +63,14 @@ export default function PodcastCard({ podcast }: { podcast: Podcast }) {
               </svg>
             </button>
 
-            {/* Toggle Menu Button */}
-
             {showMenu && (
-              <div
-                className="absolute right-3 bottom-0 ms-4 w-32 bg-gradient-to-br from-purple-700 to-indigo-800
-      text-white rounded-lg text-sm flex flex-col z-50"
-                style={{ minWidth: "12rem" }}
-              >
+              <div className="absolute right-0 mt-2 w-36 bg-gradient-to-br from-purple-700 to-indigo-800 text-white rounded-lg shadow-lg z-50 overflow-hidden">
                 <a
                   href={podcast.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block px-4 py-3 hover:bg-purple-600 transition-colors truncate"
-                  title="Go to Podcast"
+                  className="block px-3 py-2 hover:bg-purple-600 transition-colors text-sm whitespace-nowrap"
+                  onClick={() => setShowMenu(false)}
                 >
                   Go to Podcast
                 </a>

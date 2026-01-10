@@ -18,7 +18,6 @@ export default function SearchBar({
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -40,8 +39,9 @@ export default function SearchBar({
           type="text"
           value={value}
           placeholder="ابحث عن بودكاست..."
-          className="w-full px-4 py-2 pr-10 rounded-lg border border-purple-500/40 
-                     bg-[#1a1a2e] text-white placeholder-gray-400 
+          dir="rtl"
+          className="w-full px-4 py-2 pl-10 rounded-lg border border-purple-500/40
+                     bg-[#1a1a2e] text-white placeholder-gray-400 text-right
                      focus:outline-none focus:ring-2 focus:ring-purple-500"
           onChange={(e) => {
             onChange(e.target.value);
@@ -59,7 +59,7 @@ export default function SearchBar({
               onClear();
               setOpen(false);
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
             aria-label="Clear"
           >
             <svg
@@ -93,7 +93,7 @@ export default function SearchBar({
                 onSearch(h);
                 setOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 text-sm 
+              className="block w-full text-right px-4 py-2 text-sm
                          text-gray-200 hover:bg-purple-600/30 hover:text-white"
             >
               {h}
