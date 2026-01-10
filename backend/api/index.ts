@@ -6,10 +6,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/search", searchRoute);
+// Vercel adds /api automatically, so routes are relative
+app.use("/search", searchRoute);
 
 // Health check
-app.get("/api", (_req, res) => {
+app.get("/", (_req, res) => {
   res.json({ status: "ok" });
 });
 

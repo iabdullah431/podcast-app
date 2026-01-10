@@ -16,5 +16,5 @@ export async function getEpisodes(term: string) {
 
 export async function getHistory() {
   const { data } = await apiPodcast.get("/api/search/history");
-  return data;
+  return Array.isArray(data) ? data : [];
 }
