@@ -1,6 +1,6 @@
 <div align="right">
 
-# 📦 مشروع البحث في iTunes
+# مشروع البحث في iTunes
 
 مشروع للبحث في بودكاستات iTunes باستخدام Next.js و Express
 
@@ -17,17 +17,17 @@
 <div align="right" dir="rtl">
 
 **الواجهة الأمامية (Frontend):**
-- ⚛️ React
-- 🚀 Next.js
-- 🎨 Tailwind CSS
+React
+Next.js
+Tailwind CSS
 
 **الواجهة الخلفية (Backend):**
-- 🟢 Node.js
-- 📡 Express
-- 📊 Prisma
+Node.js
+Express
+Prisma
 
 **قاعدة البيانات:**
-- 🗄️ SQLite
+SQLite
 
 </div>
 
@@ -35,7 +35,7 @@
 
 <div align="right">
 
-## 🚀 طريقة تشغيل المشروع
+## طريقة تشغيل المشروع
 
 ### Backend
 
@@ -77,7 +77,7 @@ npx prisma studio
 
 <div align="right" dir="rtl">
 
-## 📝 شرح المشروع
+## شرح المشروع
 
 - REST API endpoint يستقبل كلمة البحث ويستخدم iTunes Search API
 - تخزين النتائج في قاعدة بيانات SQLite
