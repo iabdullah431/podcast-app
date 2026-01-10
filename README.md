@@ -14,7 +14,7 @@
 
 </div>
 
-<div align="right">
+<div align="right" dir="rtl">
 
 **الواجهة الأمامية (Frontend):**
 - ⚛️ React
@@ -75,7 +75,7 @@ npx prisma studio
 
 ---
 
-<div align="right">
+<div align="right" dir="rtl">
 
 ## 📝 شرح المشروع
 
