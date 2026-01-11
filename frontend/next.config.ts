@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
 const BACKEND = isProd
-  ? "https://backendpodcast-production.up.railway.app"
+  ? "https://podcast-app-euyh.vercel.app"
   : "http://localhost:3001";
 
 const nextConfig = {
+  outputFileTracingRoot: process.cwd(),
   async rewrites() {
     return [
       { source: "/api/search", destination: `${BACKEND}/api/search` },
